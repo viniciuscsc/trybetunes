@@ -12,7 +12,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <p>Trybe Tunes</p>
+        <h1>Trybe Tunes</h1>
         <BrowserRouter>
           <Switch>
             <Route path="/album/:id" render={ () => <Album /> } />
@@ -20,7 +20,7 @@ class App extends React.Component {
             <Route path="/profile" component={ Profile } />
             <Route path="/favorites" component={ Favorites } />
             <Route path="/search" component={ Search } />
-            <Route exact path="/" component={ Login } />
+            <Route exact path="/" render={ (props) => <Login { ...props } /> } />
             <Route path="*" component={ NotFound } />
           </Switch>
         </BrowserRouter>
