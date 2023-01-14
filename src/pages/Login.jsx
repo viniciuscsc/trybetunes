@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { createUser } from '../services/userAPI';
-import Carregando from '../Carregando';
+import Carregando from '../components/Carregando';
 
 class Login extends Component {
   state = {
@@ -39,6 +39,7 @@ class Login extends Component {
 
     return (
       <div data-testid="page-login">
+        <h1>Trybe Tunes</h1>
         {(carregando)
           ? <Carregando />
           : (

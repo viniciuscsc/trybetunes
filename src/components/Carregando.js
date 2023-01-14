@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 class Carregando extends Component {
   render() {
-    return (<h1>Carregando...</h1>);
+    return (<h2>Carregando...</h2>);
   }
 }
 
