@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { BrowserRouter, Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import Carregando from './Carregando';
 
@@ -33,6 +34,17 @@ class Header extends Component {
             ? <Carregando />
             : <h2 data-testid="header-user-name">{ loginName }</h2>
         }
+        <BrowserRouter>
+          <div>
+            <Link to="/search" data-testid="link-to-search">Search</Link>
+          </div>
+          <div>
+            <Link to="/favorites" data-testid="link-to-favorites">Favorites</Link>
+          </div>
+          <div>
+            <Link to="/profile" data-testid="link-to-profile">Profile</Link>
+          </div>
+        </BrowserRouter>
       </header>
     );
   }

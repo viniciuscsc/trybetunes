@@ -6,7 +6,6 @@ class Album extends Component {
     return (
       <div data-testid="page-album">
         <Header />
-        Album
       </div>
     );
   }
