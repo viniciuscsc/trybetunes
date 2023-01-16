@@ -9,10 +9,10 @@ class MusicCard extends Component {
     musicaFavorita: false,
   };
 
-  adicionaMusicaFavorita = async (objetoMusica, event) => {
-    const { target: { checked } } = event;
+  adicionaMusicaFavorita = async ({ target: { checked } }) => {
+    const { musica } = this.props;
     this.setState({ carregando: true });
-    if (checked) await addSong(objetoMusica);
+    if (checked) await addSong(musica);
     this.setState({ carregando: false, musicaFavorita: checked });
   };
 
@@ -39,7 +39,7 @@ class MusicCard extends Component {
                 <input
                   type="checkbox"
                   id="favoritas"
-                  onChange={ () => this.adicionaMusicaFavorita(musica, event) }
+                  onChange={ this.adicionaMusicaFavorita }
                   checked={ musicaFavorita }
                   data-testid={ `checkbox-music-${musica.trackId}` }
                 />
