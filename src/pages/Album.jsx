@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import Header from '../components/Header';
+import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
 
 class Album extends Component {
@@ -7,24 +8,29 @@ class Album extends Component {
     musicas: [],
   };
 
-  componentDidMount() {
-    this.buscaMusicasDoAlbum();
+  async componentDidMount() {
+    await this.buscaMusicasDoAlbum();
   }
 
-  buscaMusicasDoAlbum = () => {
+  buscaMusicasDoAlbum = async () => {
     const { match: { params: { id } } } = this.props;
 
     getMusics(id)
-      .then((resposta) => this.setState({ musicas: resposta }));
+      .then((response) => this.setState({ musicas: response }));
   };
 
   render() {
-    const { musicas } = this.props;
+    const { musicas } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
-        <p>{musicas[0].artistName}</p>
-        <p>{musicas[0].collectionName}</p>
+        {(musicas.length > 0)
+          && (
+            <div>
+              <p data-testid="artist-name">{musicas[0].artistName}</p>
+              <p data-testid="album-name">{musicas[0].collectionName}</p>
+              <MusicCard musicas={ musicas } />
+            </div>) }
       </div>
     );
   }
