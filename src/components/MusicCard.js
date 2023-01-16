@@ -1,35 +1,63 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { addSong } from '../services/favoriteSongsAPI';
+import Carregando from './Carregando';
 
 class MusicCard extends Component {
-  render() {
-    const { musicas } = this.props;
-    const listaDeMusicas = musicas.filter((_musica, index) => index !== 0);
+  state = {
+    carregando: false,
+    musicaFavorita: false,
+  };
 
+  adicionaMusicaFavorita = async (objetoMusica, event) => {
+    const { target: { checked } } = event;
+
+    this.setState({ carregando: true });
+    if (checked) await addSong(objetoMusica);
+    this.setState({ carregando: false, musicaFavorita: checked });
+  };
+
+  render() {
+    const { musica } = this.props;
+    const { carregando, musicaFavorita } = this.state;
     return (
       <div>
-        {listaDeMusicas.map((musica) => (
-          <div key={ musica.trackId }>
-            <h3>{musica.trackName}</h3>
-            <audio data-testid="audio-component" src={ musica.previewUrl } controls>
-              <track kind="captions" />
-              O seu navegador não suporta o elemento
-              {' '}
-              <code>audio</code>
-            </audio>
-          </div>
-        ))}
+        {(carregando)
+          ? <Carregando />
+          : (
+            <div>
+              <h3>{musica.trackName}</h3>
+              <audio data-testid="audio-component" src={ musica.previewUrl } controls>
+                <track kind="captions" />
+                O seu navegador não suporta o elemento
+                {' '}
+                <code>audio</code>
+              </audio>
+              <label
+                htmlFor="favoritas"
+                data-testid={ `checkbox-music-${musica.trackId}` }
+              >
+                Favorita
+                <input
+                  type="checkbox"
+                  id="favoritas"
+                  onChange={ () => this.adicionaMusicaFavorita(musica, event) }
+                  checked={ musicaFavorita }
+                />
+              </label>
+            </div>
+          )}
       </div>
     );
   }
 }
 
 MusicCard.propTypes = {
-  musicas: PropTypes.arrayOf(PropTypes.shape({
+  musica: PropTypes.shape({
     trackId: PropTypes.number,
     trackName: PropTypes.string,
     previewUrl: PropTypes.string,
-  })).isRequired,
+  }).isRequired,
 };
 
 export default MusicCard;

@@ -6,6 +6,7 @@ import getMusics from '../services/musicsAPI';
 
 class Album extends Component {
   state = {
+    carregando: false,
     musicas: [],
   };
 
@@ -22,16 +23,24 @@ class Album extends Component {
 
   render() {
     const { musicas } = this.state;
+    const listaDeMusicas = musicas.filter((_musica, index) => index !== 0);
+
     return (
       <div data-testid="page-album">
         <Header />
         {(musicas.length > 0)
           && (
             <div>
-              <p data-testid="artist-name">{musicas[0].artistName}</p>
-              <p data-testid="album-name">{musicas[0].collectionName}</p>
-              <MusicCard musicas={ musicas } />
-            </div>) }
+              <h3 data-testid="artist-name">{musicas[0].artistName}</h3>
+              <h3 data-testid="album-name">{musicas[0].collectionName}</h3>
+              {listaDeMusicas
+                .map((musica) => (
+                  <MusicCard
+                    key={ musica.trackId }
+                    musica={ musica }
+                  />))}
+            </div>
+          )}
       </div>
     );
   }
