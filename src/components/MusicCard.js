@@ -11,7 +11,6 @@ class MusicCard extends Component {
 
   adicionaMusicaFavorita = async (objetoMusica, event) => {
     const { target: { checked } } = event;
-
     this.setState({ carregando: true });
     if (checked) await addSong(objetoMusica);
     this.setState({ carregando: false, musicaFavorita: checked });
@@ -35,7 +34,6 @@ class MusicCard extends Component {
               </audio>
               <label
                 htmlFor="favoritas"
-                data-testid={ `checkbox-music-${musica.trackId}` }
               >
                 Favorita
                 <input
@@ -43,6 +41,7 @@ class MusicCard extends Component {
                   id="favoritas"
                   onChange={ () => this.adicionaMusicaFavorita(musica, event) }
                   checked={ musicaFavorita }
+                  data-testid={ `checkbox-music-${musica.trackId}` }
                 />
               </label>
             </div>
