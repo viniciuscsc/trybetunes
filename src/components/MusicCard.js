@@ -9,6 +9,10 @@ class MusicCard extends Component {
     musicaFavorita: false,
   };
 
+  componentDidMount() {
+    this.recuperaMusicasFavoritas();
+  }
+
   adicionaMusicaFavorita = async ({ target: { checked } }) => {
     const { musica } = this.props;
     this.setState({ carregando: true });
