@@ -12,6 +12,7 @@ export default class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
+        <h1>Trybe Tunes</h1>
         <Switch>
           <Route path="/album/:id" component={ Album } />
           <Route path="/profile/edit" component={ ProfileEdit } />

@@ -24,9 +24,9 @@ export default class Header extends Component {
 
     return (
       <header data-testid="header-component">
-        <Link data-testid="link-to-search" to="/search">Search</Link>
-        <Link data-testid="link-to-favorites" to="/favorites">Favorites</Link>
-        <Link data-testid="link-to-profile" to="/profile">Profile</Link>
+        <div><Link data-testid="link-to-search" to="/search">Search</Link></div>
+        <div><Link data-testid="link-to-favorites" to="/favorites">Favorites</Link></div>
+        <div><Link data-testid="link-to-profile" to="/profile">Profile</Link></div>
         {(carregando)
           ? <Carregando />
           : (<h2 data-testid="header-user-name">{ userName }</h2>)}
