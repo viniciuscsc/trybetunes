@@ -31,6 +31,28 @@ export default class Login extends Component {
     history.push('/search');
   };
 
+  renderizaFormularioLogin = () => (
+    <form>
+      <label htmlFor="login-name">
+        { 'Nome: ' }
+        <input
+          data-testid="login-name-input"
+          type="text"
+          id="login-name"
+          onChange={ this.capturaValorDoInput }
+        />
+      </label>
+      <button
+        data-testid="login-submit-button"
+        type="button"
+        disabled={ this.habilitaBtnEntrar() }
+        onClick={ this.acaoDoBtnEntrar }
+      >
+        Entrar
+      </button>
+    </form>
+  );
+
   render() {
     const { carregando } = this.state;
 
@@ -39,27 +61,7 @@ export default class Login extends Component {
         <h2>Login</h2>
         {(carregando)
           ? <Carregando />
-          : (
-            <form>
-              <label htmlFor="login-name">
-                { 'Nome: ' }
-                <input
-                  data-testid="login-name-input"
-                  type="text"
-                  id="login-name"
-                  onChange={ this.capturaValorDoInput }
-                />
-              </label>
-              <button
-                data-testid="login-submit-button"
-                type="button"
-                disabled={ this.habilitaBtnEntrar() }
-                onClick={ this.acaoDoBtnEntrar }
-              >
-                Entrar
-              </button>
-            </form>
-          )}
+          : this.renderizaFormularioLogin()}
       </div>
     );
   }
