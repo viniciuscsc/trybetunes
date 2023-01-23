@@ -38,6 +38,7 @@ export default class Album extends Component {
           <MusicCard
             key={ trackId }
             previewUrl={ previewUrl }
+            trackId={ trackId }
             trackName={ trackName }
           />
         ))}
