@@ -1,17 +1,21 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Carregando from './Carregando';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 export default class MusicCard extends Component {
   state = {
     carregando: false,
-    // checked: false,
+    checked: false,
   };
 
-  // componentDidMount() {
-  //   this.verificaSeEFavorita();
-  // }
+  componentDidMount() {
+    this.verificaSeEFavorita();
+  }
+
+  componentDidUpdate() {
+    this.verificaSeEFavorita();
+  }
 
   adicionaMusicaFavorita = async ({ target: { checked } }) => {
     const { trackId } = this.props;
@@ -22,23 +26,17 @@ export default class MusicCard extends Component {
     this.setState({ carregando: false });
   };
 
-  verificaSeEFavorita = () => {
-    // acessa o id da musica
+  verificaSeEFavorita = async () => {
     const { trackId } = this.props;
-
-    // acessa o local storage
-    const musicasFavoritas = JSON.parse(localStorage.getItem('favorite_songs'));
-
-    // verifica se o id é igual ao de algum id das musicas do LS
-    return musicasFavoritas.some((musica) => musica === trackId);
-    // se algum é igual, atualiza o estado checked para true
-
-    // senao, mantem o estado false
+    const musicasFavoritas = await getFavoriteSongs();
+    if (musicasFavoritas.some((musica) => musica === trackId)) {
+      this.setState({ checked: true });
+    }
   };
 
   renderizaCard = () => {
     const { previewUrl, trackId, trackName } = this.props;
-    // const { checked } = this.state;
+    const { checked } = this.state;
     return (
       <div>
         <p>{ trackName }</p>
@@ -55,7 +53,7 @@ export default class MusicCard extends Component {
             type="checkbox"
             id={ trackId }
             onChange={ this.adicionaMusicaFavorita }
-            checked={ this.verificaSeEFavorita() }
+            checked={ checked }
           />
         </label>
       </div>
