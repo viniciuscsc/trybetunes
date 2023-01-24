@@ -4,26 +4,17 @@ import Header from '../components/Header';
 import Carregando from '../components/Carregando';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
-import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 export default class Album extends Component {
   state = {
     carregando: false,
     listaMusicas: [],
-    musicasFavoritas: [],
     nomeAlbum: '',
     nomeArtista: '',
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.acessaMusicasDoAlbum();
-    const musicasFavoritas = await getFavoriteSongs();
-    this.setState({ musicasFavoritas });
-  }
-
-  async componentDidUpdate() {
-    const musicasFavoritas = await getFavoriteSongs();
-    this.setState({ musicasFavoritas });
   }
 
   acessaMusicasDoAlbum = async () => {
@@ -41,11 +32,6 @@ export default class Album extends Component {
     });
   };
 
-  verificaSeEFavorita = (trackId) => {
-    const { musicasFavoritas } = this.state;
-    return musicasFavoritas.some((musica) => musica === trackId);
-  };
-
   renderizaMusicas = () => {
     const { listaMusicas, nomeAlbum, nomeArtista } = this.state;
     return (
@@ -58,7 +44,6 @@ export default class Album extends Component {
             previewUrl={ previewUrl }
             trackId={ trackId }
             trackName={ trackName }
-            checked={ this.verificaSeEFavorita(trackId) }
           />
         ))}
       </div>
