@@ -44,7 +44,7 @@ export default class Search extends Component {
     <div>
       <form>
         <label htmlFor="search-artist">
-          {'Nome: '}
+          {'Artista ou banda: '}
           <input
             data-testid="search-artist-input"
             type="text"

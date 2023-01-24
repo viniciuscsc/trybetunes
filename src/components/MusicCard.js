@@ -18,24 +18,24 @@ export default class MusicCard extends Component {
   }
 
   adicionaMusicaFavorita = async ({ target: { checked } }) => {
-    const { trackId } = this.props;
+    const { musica } = this.props;
     this.setState({ carregando: true });
     if (checked) {
-      await addSong(trackId);
+      await addSong(musica);
     }
     this.setState({ carregando: false });
   };
 
   verificaSeEFavorita = async () => {
-    const { trackId } = this.props;
+    const { musica } = this.props;
     const musicasFavoritas = await getFavoriteSongs();
-    if (musicasFavoritas.some((musica) => musica === trackId)) {
+    if (musicasFavoritas.some((music) => music.trackId === musica.trackId)) {
       this.setState({ checked: true });
     }
   };
 
   renderizaCard = () => {
-    const { previewUrl, trackId, trackName } = this.props;
+    const { musica: { previewUrl, trackId, trackName } } = this.props;
     const { checked } = this.state;
     return (
       <div>
@@ -73,7 +73,9 @@ export default class MusicCard extends Component {
 }
 
 MusicCard.propTypes = {
-  previewUrl: PropTypes.string.isRequired,
-  trackId: PropTypes.number.isRequired,
-  trackName: PropTypes.string.isRequired,
+  musica: PropTypes.shape({
+    previewUrl: PropTypes.string,
+    trackId: PropTypes.number,
+    trackName: PropTypes.string,
+  }).isRequired,
 };
