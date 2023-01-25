@@ -28,17 +28,22 @@ export default class MusicCard extends Component {
       await removeSong(musica);
       this.setState({ checked: false });
     }
-    this.setState({ carregando: false });
+    const musicasFavoritasAtualizada = await getFavoriteSongs();
+    this.setState({
+      carregando: false,
+      musicasFavoritas: musicasFavoritasAtualizada,
+    });
   };
 
   verificaSeEFavorita = async () => {
     const { musica } = this.props;
-    const { musicasFavoritas } = this.state;
-    const FavoritasLS = await getFavoriteSongs();
-    this.setState({ musicasFavoritas: FavoritasLS });
-    if (FavoritasLS.some((music) => music.trackId === musica.trackId)) {
-      this.setState({ checked: true });
-    }
+    const favoritasLocalStorage = await getFavoriteSongs();
+    this.setState({ musicasFavoritas: favoritasLocalStorage }, () => {
+      const { musicasFavoritas } = this.state;
+      if (musicasFavoritas.some((music) => music.trackId === musica.trackId)) {
+        this.setState({ checked: true });
+      }
+    });
   };
 
   renderizaCard = () => {
