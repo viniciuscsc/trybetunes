@@ -1,12 +1,13 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Carregando from './Carregando';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 
 export default class MusicCard extends Component {
   state = {
     carregando: false,
     checked: false,
+    musicasFavoritas: [],
   };
 
   componentDidMount() {
@@ -17,19 +18,25 @@ export default class MusicCard extends Component {
     this.verificaSeEFavorita();
   }
 
-  adicionaMusicaFavorita = async ({ target: { checked } }) => {
+  manipulaCheckboxMusicaFavorita = async ({ target: { checked } }) => {
     const { musica } = this.props;
     this.setState({ carregando: true });
     if (checked) {
       await addSong(musica);
+      this.setState({ checked: true });
+    } else {
+      await removeSong(musica);
+      this.setState({ checked: false });
     }
     this.setState({ carregando: false });
   };
 
   verificaSeEFavorita = async () => {
     const { musica } = this.props;
-    const musicasFavoritas = await getFavoriteSongs();
-    if (musicasFavoritas.some((music) => music.trackId === musica.trackId)) {
+    const { musicasFavoritas } = this.state;
+    const FavoritasLS = await getFavoriteSongs();
+    this.setState({ musicasFavoritas: FavoritasLS });
+    if (FavoritasLS.some((music) => music.trackId === musica.trackId)) {
       this.setState({ checked: true });
     }
   };
@@ -52,7 +59,7 @@ export default class MusicCard extends Component {
             data-testid={ `checkbox-music-${trackId}` }
             type="checkbox"
             id={ trackId }
-            onChange={ this.adicionaMusicaFavorita }
+            onChange={ this.manipulaCheckboxMusicaFavorita }
             checked={ checked }
           />
         </label>
